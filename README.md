@@ -1,20 +1,21 @@
-PROYECTO DE GESTIÓN DE TAREAS CON VUE Y POCKETBASE
-Materia: Desarrollo Web Fronted INF-460 
-Estudiante: Cristian Coca Bejarano
+# PROYECTO DE GESTIÓN DE TAREAS CON VUE Y POCKETBASE
 
-Este proyecto es una aplicación web desarrollada con Vue, Vite, TailwindCSS y PocketBase (vía Mailpit) como backend. Incluye autenticación, gestión de tareas, actualización de perfil y carga de avatar.
+**Materia:** Desarrollo Web Fronted INF-460  
+**Estudiante:** Cristian Coca Bejarano
 
-CARACTERISTICAS PRINCIPALES:
+Este proyecto es una aplicación web desarrollada con **Vue**, **Vite**, **TailwindCSS** y **PocketBase** (vía **Mailpit**) como backend. Incluye autenticación, gestión de tareas, actualización de perfil y carga de avatar.
 
-Autenticación
+---
 
+## CARACTERISTICAS PRINCIPALES:
+
+### Autenticación
 - Registro de nuevos usuarios
 - Inicio y cierre de sesión
 - Restablecimiento de contraseña mediante correo
 - Protección de rutas mediante middleware
 
-Módulo de tareas
-
+### Módulo de tareas
 - Crear tareas
 - Listar tareas
 - Paginación
@@ -22,22 +23,22 @@ Módulo de tareas
 - Eliminar tareas
 - Mostrar solo las tareas del usuario autenticado
 
-Perfil de usuario
-
+### Perfil de usuario
 - Actualizar nombre y apellido
 - Subir o cambiar avatar
 - Mostrar avatar en la barra de navegación
 - Vista adaptada a pantallas pequeñas
 
-REQUISITOS PREVIOS:
+---
 
-Frontend
+## REQUISITOS PREVIOS:
 
+### Frontend
 - Node.js
 - npm
 - Tailwindcss
 
-En caso no reconozca Tailwindcss,  se recomienda crear el file tailwind.config.js:
+En caso no reconozca Tailwindcss, se recomienda crear el archivo `tailwind.config.js`:
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
