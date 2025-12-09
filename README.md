@@ -40,6 +40,7 @@ Este proyecto es una aplicación web desarrollada con **Vue**, **Vite**, **Tailw
 
 En caso no reconozca Tailwindcss, se recomienda crear el archivo `tailwind.config.js`:
 
+```
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
@@ -63,7 +64,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [vue(), tailwindcss()]
 })
-
+```
 Backend
 
 - PocketBase (descarga necesaria)
@@ -71,12 +72,14 @@ Backend
 
 ---
 
-# INSTALACIÓN
+## INSTALACIÓN
 
-1. Clonar el repositorio
+# Clonar el repositorio
 
-git clone https://github.com/tu-usuario/tu-repo.git](https://github.com/cristiancb10/Proyecto_Saas.git
-cd tu-repo
+```
+git clone https://github.com/cristiancb10/Proyecto_Saas.git
+cd Proyecto_Saas
+```
 
 2. Instalar dependencias
 
