@@ -52,9 +52,11 @@ module.exports = {
     },
     plugins: [],
 }
+```
 
 Y modificar el vite.config.js
 
+```
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
@@ -65,7 +67,8 @@ export default defineConfig({
   plugins: [vue(), tailwindcss()]
 })
 ```
-Backend
+
+### Backend
 
 - PocketBase (descarga necesaria)
 - Mailpit (descarga necesaria y ubicacion en Path)
@@ -74,25 +77,28 @@ Backend
 
 ## INSTALACIÓN
 
-# Clonar el repositorio
+### Clonar el repositorio
 
 ```
 git clone https://github.com/cristiancb10/Proyecto_Saas.git
 cd Proyecto_Saas
 ```
 
-2. Instalar dependencias
+### Instalar dependencias
 
+```
 npm install
 npm install pocketbase
 npm install -D tailwindcss postcss autoprefixer
+```
 
-3. Iniciar servidor de desarrollo, pocketbase y servidor de correos
+### Iniciar servidor de desarrollo, pocketbase y servidor de correos (a la vez)
 
+```
 npm run dev
 pocketbase serve
 mailpit
-
+```
 ---
 
 ## CREAR COLECCIONES
