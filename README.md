@@ -118,6 +118,8 @@ Otorgar reglas de CRUD en Pocketbase, para podre interactuar.
 ---
 
 ## ESTRUCTURA DEL PROYECTO
+
+'''
 src/
  ├─ components/
  │   ├─ NavBar.vue
@@ -134,7 +136,7 @@ src/
  │   └─ pb.js   (configuración de PocketBase)
  └─ App.vue
  └─ main.css    (Donde se agrega @import "tailwindcss";)
-
+'''
 
 ---
 
