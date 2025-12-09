@@ -88,27 +88,34 @@ npm run dev
 pocketbase serve
 mailpit
 
-2. Crear colecciones
-Colección: users (auth)
+---
+
+## CREAR COLECCIONES
+
+### Colección: users (auth)
 Se crea automáticamente algunos campos. Pero a ello el campo:
 
-Campo	    Tipo	Requerido	Notas
-lastName	text	no	        Apellido del usuario
+| Campo    | Tipo | Requerido | Notas                     |
+|----------|------|-----------|---------------------------|
+| lastName | text | no        | Apellido del usuario      |
 
 Habilitar autenticación de tipo email/password.
 
-Colección: tasks
+### Colección: tasks
 Debe crearse manualmente.
 
-Campo	    Tipo	    Requerido	Notas
-title	    text	    sí	        Nombre de la tarea
-completed	bool	    no	        Estado de la tarea
-priority    selection   si          Prioridad (low, medium, high)
-owner	    relation	sí	        Relación con users
+| Campo     | Tipo      | Requerido | Notas                          |
+|-----------|-----------|-----------|--------------------------------|
+| title     | text      | sí        | Nombre de la tarea             |
+| completed | bool      | no        | Estado de la tarea             |
+| priority  | selection | sí        | Prioridad (low, medium, high)  |
+| owner     | relation  | sí        | Relación con users             |
 
 Otorgar reglas de CRUD en Pocketbase, para podre interactuar.
 
-Estructura del proyecto
+---
+
+## ESTRUCTURA DEL PROYECTO
 src/
  ├─ components/
  │   ├─ NavBar.vue
@@ -126,6 +133,9 @@ src/
  └─ App.vue
  └─ main.css    (Donde se agrega @import "tailwindcss";)
 
-NOTAS FINALES
+
+---
+
+## NOTAS FINALES
 Este proyecto está pensado como base para aplicaciones que requieren autenticación, carga de archivos e interacción sencilla con un backend ligero como PocketBase.
 La estructura es modular y permite extender fácilmente nuevas funciones como categorías, filtros, roles, etc.
