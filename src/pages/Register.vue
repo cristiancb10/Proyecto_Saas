@@ -26,7 +26,7 @@ const registerUser = async () => {
     try {
         loading.value = true;
 
-        // Crear usuario en Pocketbase
+        // Crear usuario en Pocketbase, y extra los datos de users
         const newUser = await pb.collection('users').create({
             name: name.value,
             lastName: lastName.value,
@@ -40,10 +40,16 @@ const registerUser = async () => {
 
         successMsg.value = 'Registro exitoso. Revisa tu correo y verfica tu cuenta';
 
-        // Redirigir al login despues de 2 segundos
+        // Redirigir al login despues de 4 segundos
         setTimeout(() => router.push('/login'), 4000);
     } catch (err) {
-        errorMsg.value = err.message || 'Error inesperado al registrar.';
+        const emailError = err?.data?.data?.email;
+
+        if (emailError?.code === "validation_not_unique") {
+            errorMsg.value = "El correo ya está registrado. Usa otro correo.";
+        } else {
+            errorMsg.value = err.message || "Error inesperado al registrar.";
+        }
     } finally {
         loading.value = false;
     }

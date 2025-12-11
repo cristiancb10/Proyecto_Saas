@@ -40,8 +40,7 @@ const sendReset = async () => {
         <button
             @click="sendReset"
             class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
-        >
-            Enviar enlace
+        >Enviar enlace
         </button>
 
         <p v-if="message" class="text-green-400 mt-3 text-sm">{{ message }}</p>
@@ -51,8 +50,7 @@ const sendReset = async () => {
         <button
             @click="router.push('/login')"
             class="w-full mt-4 bg-gray-600 text-white p-2 rounded hover:bg-gray-700 transition"
-        >
-            Volver al login
+        >Volver al login
         </button>
 
         </div>
