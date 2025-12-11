@@ -3,14 +3,17 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import pb from "../lib/pb";
 
+// inicializa el router
 const router = useRouter();
 
+// Variables reactivas para controlar estado de autenticación y datos del usuario
 const isLogged = ref(pb.authStore.isValid);
 const userName = ref(pb.authStore.model?.name || "");
 const userLastName = ref(pb.authStore.model?.lastName || "");
 const userEmail = ref(pb.authStore.model?.email || "");
 const userAvatar = ref(pb.authStore.model?.avatar || "");
 
+// Se ejecuta al montar el componente, actualizando sus valores
 onMounted(() => {
     pb.authStore.onChange(() => {
         isLogged.value = pb.authStore.isValid;
@@ -21,6 +24,7 @@ onMounted(() => {
     });
 });
 
+// Salir de la sesión, los datos se actualizan y se redirige al login
 const logout = () => {
     pb.authStore.clear();
     isLogged.value = false;
@@ -34,7 +38,7 @@ const logout = () => {
 
 <template>
     <nav class="bg-gray-800 text-white px-4 py-3 flex flex-wrap items-center justify-between shadow-lg w-full">
-        <!-- Logo -->
+        <!-- Titulo de Mi SaaS -->
         <h1 
             class="text-xl font-bold cursor-pointer hover:text-blue-400 w-full sm:w-auto mb-2 sm:mb-0"
             @click="router.push('/')"
@@ -60,7 +64,7 @@ const logout = () => {
 
             <!-- SI ESTA LOGUEADO -->
             <template v-else>
-                <!-- Avatar -->
+                <!-- Si tiene Avatar muestra el mismo, sino la primera inicial del email -->
                 <img 
                     v-if="userAvatar"
                     :src="`http://127.0.0.1:8090/api/files/${pb.authStore.model.collectionId}/${pb.authStore.model.id}/${userAvatar}`"
@@ -77,6 +81,7 @@ const logout = () => {
                 >{{ userName }} {{ userLastName }}
                 </span>
 
+                <!-- Cierra sesión llamando a logout -->
                 <button 
                     @click="logout"
                     class="w-full sm:w-auto bg-red-500 text-white px-4 py-1 rounded hover:bg-red-700 transition"

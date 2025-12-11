@@ -4,16 +4,12 @@ import pb from '../lib/pb'
 import Login from '../pages/Login.vue';
 import Register from '../pages/Register.vue';
 import Tasks from '../pages/Tasks.vue';
-import ResetPassword from '../pages/ResetPassword.vue';
-import ConfirmReset from '../pages/ConfirmReset.vue';
 import Profile from '../pages/Profile.vue';
 
 // Se crean las rutas
 const routes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
-    { path: '/reset', component: ResetPassword },
-    { path: '/confirm-reset', component: ConfirmReset },
     { 
         path: '/tasks', 
         component: Tasks,

@@ -26,7 +26,7 @@ const registerUser = async () => {
     try {
         loading.value = true;
 
-        // Crear usuario en Pocketbase, y extra los datos de users
+        // Crear usuario en Pocketbase, con los datos de users
         const newUser = await pb.collection('users').create({
             name: name.value,
             lastName: lastName.value,
@@ -43,6 +43,7 @@ const registerUser = async () => {
         // Redirigir al login despues de 4 segundos
         setTimeout(() => router.push('/login'), 4000);
     } catch (err) {
+        // Guarda el error en caso este en email y sino undefined
         const emailError = err?.data?.data?.email;
 
         if (emailError?.code === "validation_not_unique") {
@@ -122,7 +123,7 @@ const registerUser = async () => {
                     />
                 </div>
 
-                <!-- Botón -->
+                <!-- Cargando -->
                 <button
                     type="submit"
                     :disabled="loading"

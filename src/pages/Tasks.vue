@@ -3,54 +3,56 @@ import { computed, onMounted, ref } from 'vue';
 import pb from '../lib/pb.js'
 import { useRouter } from 'vue-router';
 
-const tasks = ref([]);
-const totalTasks = ref(0);
-const currentPage = ref(1);
-const perPage = ref(5);
+const tasks = ref([]); // array con todas las tareas
+const totalTasks = ref(0); // número total de tareas para paginación
+const currentPage = ref(1); // página actual en la paginación
+const perPage = ref(5); // número de tareas por página
+// Total de páginas
 const totalPages = computed(() => Math.ceil(totalTasks.value / perPage.value));
 
-const loading = ref(true);
-const errorMsg = ref('');
+const loading = ref(true); // indica si se están cargando las tareas
+const errorMsg = ref(''); // mensaje de error al listar tareas
 
 // LISTAR TAREAS
 const fetchTasks = async () => {
     try {
         loading.value = true;
-
+        // Obtener tareas desde la 1 hasta la 5 y filtra por usuario loggeado
         const response = await pb.collection('tasks').getList(currentPage.value, perPage.value, {
-            filter: `owner = '${pb.authStore.model.id}'`,
-            sort: '-created'
+            filter: `owner = '${pb.authStore.model.id}'`, // solo tareas del usuario actual
+            sort: '-created' // Ordena de manera descendente
         });
 
-        tasks.value = response.items;
-        totalTasks.value = response.totalItems;
+        tasks.value = response.items; // Guarda tareas en un array solo 5
+        totalTasks.value = response.totalItems; // Actualiza el numero total de tareas
     } catch (err) {
         errorMsg.value = 'Error al cargar las tareas';
     } finally {
-        loading.value = false;
+        loading.value = false; // terminar carga
     }
 }
 
-// Navegación entre páginas
+// PAGINACIÓN
 const nextPage = () => {
     if (currentPage.value < totalPages.value) {
-        currentPage.value++;
-        fetchTasks();
+        currentPage.value++; // Actualiza la página
+        fetchTasks(); // Muestra las tareas
     }
 };
 
 const prevPage = () => {
     if (currentPage.value > 1) {
-        currentPage.value--;
-        fetchTasks();
+        currentPage.value--; // Actualiza la página
+        fetchTasks(); // Muestra las tareas
     }
 };
 
+// Cargar tareas al iniciar el componente
 onMounted(fetchTasks)
 
 // CREAR TAREAS
 const newTaskTitle = ref('');
-const creating = ref(false);
+const creating = ref(false); // Indicador de creación en proceso
 const newTaskPriority = ref("medium");
 
 const createTask = async () => {
@@ -59,6 +61,7 @@ const createTask = async () => {
     try {
         creating.value = true;
 
+        // Crear tarea en PocketBase
         const created = await pb.collection('tasks').create({
             title: newTaskTitle.value,
             completed: false,
@@ -66,7 +69,7 @@ const createTask = async () => {
             owner: pb.authStore.model.id
         });
 
-        tasks.value.unshift(created);
+        tasks.value.unshift(created); // Agrega tarea al inicio del array
         newTaskPriority.value = "medium";
         newTaskTitle.value = '';
     } catch (err) {
@@ -89,24 +92,25 @@ const deleteTask = async (task) => {
 }
 
 // ACTUALIZAR TAREA
-const editingTask = ref(null);
-const editingTitle = ref('');
-const savingEdit = ref(false);
+const editingTask = ref(null); // tarea en edición
+const editingTitle = ref(''); // nuevo título temporal
+const savingEdit = ref(false); // indicador de guardado en proceso
 
 const startEdit = (task) => {
-    editingTask.value = task;
-    editingTitle.value = task.title; 
+    editingTask.value = task; // marcar tarea para edición
+    editingTitle.value = task.title; // copiar título actual
 };
 
 const cancelEdit = () => {
-    editingTask.value = null;
-    editingTitle.value = '';
+    editingTask.value = null;  // cancelar edición
+    editingTitle.value = ''; // limpiar título temporal
 };
 
 const saveEdit = async () => {
     try {
         savingEdit.value = true;
 
+        // Actualizar tarea en PocketBase
         const updated = await pb.collection('tasks').update(editingTask.value.id, {
             title: editingTitle.value
         });
@@ -115,7 +119,7 @@ const saveEdit = async () => {
         const idx = tasks.value.findIndex(t => t.id === editingTask.value.id);
         tasks.value[idx] = updated;
 
-        cancelEdit();
+        cancelEdit(); // limpiar edición
     } catch (err) {
         alert("Error al actualizar la tarea");
     } finally {
@@ -141,10 +145,9 @@ const toggleCompleted = async (task) => {
 };
 
 // FILTRADO Y BUSCADOR DE TAREAS
-const filterStatus = ref("all");
-const filterPriority = ref("all");
-
-const searchQuery = ref("");
+const filterStatus = ref("all"); // filtro por estado (all, pending, completed)
+const filterPriority = ref("all"); // filtro por prioridad (all, low, medium, high)
+const searchQuery = ref(""); // búsqueda por título
 
 const filteredTasks = computed(() => {
     return tasks.value.filter(task => {
@@ -152,9 +155,8 @@ const filteredTasks = computed(() => {
         if (!task.title.toLowerCase().includes(searchQuery.value.toLowerCase()))
             return false;
 
-        // Filtro por estado
-        if (filterStatus.value === "pending" && task.completed) return false;
-        if (filterStatus.value === "completed" && !task.completed) return false;
+        if (filterStatus.value === "pending" && task.completed) return false; // filtrar pendientes
+        if (filterStatus.value === "completed" && !task.completed) return false; // filtrar completadas
         
         // Filtro por prioridad
         if (filterPriority.value !== "all" && task.priority !== filterPriority.value) return false;
@@ -167,7 +169,7 @@ const filteredTasks = computed(() => {
 const router = useRouter();
 
 const logout = () => {
-    pb.authStore.clear();
+    pb.authStore.clear(); // limpiar sesión
     router.push('/login');
 }
 </script>
@@ -203,7 +205,7 @@ const logout = () => {
                 </button>
             </div>
 
-            <!-- ERRORES -->
+            <!-- ERROR -->
             <p v-if="errorMsg" class="text-red-500 mb-2">{{ errorMsg }}</p>
 
             <!-- LISTA DE TAREAS -->
@@ -240,7 +242,7 @@ const logout = () => {
                     :key="task.id"
                     class="p-3 border border-gray-700 rounded bg-gray-700 flex flex-col gap-2"
                 >
-                    <!-- FILA SUPERIOR: ESTADO, PRIORIDAD + BOTONES -->
+                    <!-- FILA SUPERIOR: ESTADO, PRIORIDAD -->
                     <div class="flex justify-between items-center w-full flex-wrap gap-2">
                         
                         <!-- IZQUIERDA -->
@@ -271,7 +273,7 @@ const logout = () => {
                             </span>
                         </div>
 
-                        <!-- DERECHA: BOTONES -->
+                        <!-- DERECHA: Editar y cancelar edición -->
                         <div class="flex flex-col sm:flex-row sm:items-center gap-1 w-full sm:w-auto">
                             
                             <template v-if="editingTask?.id === task.id">
